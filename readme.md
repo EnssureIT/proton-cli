@@ -1,6 +1,9 @@
-# sure CLI
+<p align="center">
+  <img src="docs/proton.png" width="120" alt="Proton Logo" />
+</p>
 
-A CLI for sure.
+# Proton CLI
+A CLI for Proton Framework.
 
 ## Customizing your CLI
 

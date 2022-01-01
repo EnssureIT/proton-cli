@@ -1,0 +1,36 @@
+<% 
+const handlerName = props.name.replace(/\w/, c => c.toUpperCase());
+const _defaultInject = props.defaultInject ? props.defaultInject.toLowerCase() : null;
+const defaultInject = props.defaultInject ? props.defaultInject.replace(/\w/, c => c.toUpperCase()) : null;
+%>
+
+import {controller, httpGet, httpPost} from 'inversify-express-utils';
+import { inject } from 'inversify';
+import { Request, Response } from 'express';
+import log, { LogLevelEnum } from '../../Application/Utils/logger.util';
+import HttpStatusCodeEnum from '../../Application/Enumerators/HttpStatusCode.enum';
+
+<% if(_defaultInject && defaultInject) { %>
+import { I<%= defaultInject %>Service } from '../../Application/Services/<%= defaultInject %>.service';
+<% } %>
+
+@controller("/<%= props.name.toLowerCase() %>")
+export class <%= handlerName %>Controller {
+    <% if(_defaultInject && defaultInject) { %>
+    protected _<%= _defaultInject %>Service : I<%= defaultInject %>Service;
+
+    constructor(@inject(<%= defaultInject %>Service) <%= _defaultInject %>Service: I<%= defaultInject %>Service){
+        this._<%= _defaultInject %>Service = <%= _defaultInject %>Service;
+    }
+    <% } %>
+
+    @httpGet("")
+    public async index(request: Request, response: Response){
+        try {
+            return response.status(HttpStatusCodeEnum.OK).json({status: 'ok'})
+        }catch(e){
+            log(LogLevelEnum.ERROR, "Error on <%= handlerName %>Controller index: ", e);
+            return response.status(e.statusCode || HttpStatusCodeEnum.INTERNAL_SERVER_ERROR).json({error: e.message})
+        }
+    }
+}

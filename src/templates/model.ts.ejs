@@ -1,0 +1,20 @@
+<% 
+const modelName = props.name.replace(/\w/, c => c.toUpperCase());
+%>
+
+import { model, Schema } from 'mongoose';
+
+interface I<%= modelName %>Model {
+  _id: Schema.Types.ObjectId
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const schema = new Schema<I<%= modelName %>Model>({
+  createdAt: { type: Date, default: Date.now(), immutable: true},
+  updatedAt: { type: Date, default: Date.now()},
+});
+
+const <%= modelName %>Model = model<I<%= modelName %>Model>("<%= modelName %>", schema);
+export { <%= modelName %>Model, I<%= modelName %>Model };
+

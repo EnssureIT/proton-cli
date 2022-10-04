@@ -3,11 +3,11 @@ import { GluegunCommand } from 'gluegun'
 
 
 const command: GluegunCommand = {
-  name: 'sure',
+  name: 'proton',
   run: async toolbox => {
     const { print } = toolbox
 
-    print.info('Welcome to Enssure Framework CLI')
+    print.info('Welcome to Proton Framework CLI')
   },
 }
 

@@ -11,15 +11,17 @@ import log, { LogLevelEnum } from '../../Application/Utils/logger.util';
 import HttpStatusCodeEnum from '../../Application/Enumerators/HttpStatusCode.enum';
 
 <% if(_defaultInject && defaultInject) { %>
-import { I<%= defaultInject %>Service } from '../../Application/Services/<%= defaultInject %>.service';
+import { BaseHandler } from './base/base.handler';
+import { I<%= defaultInject %>Service, <%= defaultInject %>Service } from '../../Application/Services/<%= defaultInject %>.service';
 <% } %>
 
 @controller("/<%= props.name.toLowerCase() %>")
-export class <%= handlerName %>Controller {
+export class <%= handlerName %>Handler <% if(_defaultInject && defaultInject) { %>extends BaseHandler<I<%= defaultInject %>Service><% } %> {
     <% if(_defaultInject && defaultInject) { %>
     protected _<%= _defaultInject %>Service : I<%= defaultInject %>Service;
 
     constructor(@inject(<%= defaultInject %>Service) <%= _defaultInject %>Service: I<%= defaultInject %>Service){
+        super(<%= defaultInject %>Service)
         this._<%= _defaultInject %>Service = <%= _defaultInject %>Service;
     }
     <% } %>

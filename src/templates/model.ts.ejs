@@ -3,16 +3,15 @@ const modelName = props.name.replace(/\w/, c => c.toUpperCase());
 %>
 
 import { model, Schema } from 'mongoose';
+import { baseSchema, IBaseModel } from './base/Base.model';
 
-interface I<%= modelName %>Model {
-  _id: Schema.Types.ObjectId
-  createdAt: Date;
-  updatedAt: Date;
+interface I<%= modelName %>Model extends IBaseModel {
+  <%= modelName %>Name: string;
 }
 
 const schema = new Schema<I<%= modelName %>Model>({
-  createdAt: { type: Date, default: Date.now(), immutable: true},
-  updatedAt: { type: Date, default: Date.now()},
+  <%= modelName %>Name: { type: String, required: true },
+  ...baseSchema
 });
 
 const <%= modelName %>Model = model<I<%= modelName %>Model>("<%= modelName %>", schema);

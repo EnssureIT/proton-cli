@@ -1,0 +1,20 @@
+<% 
+const serviceName = props.name.replace(/\w/, c => c.toUpperCase());
+const modelName = props.model ? props.model.replace(/\w/, c => c.toUpperCase()) : null;
+%>
+import { inject, injectable } from "inversify";
+import { BaseService, IBaseService } from "./base/Base.service";
+import { <%= modelName %>Model } from "../../Infra/Models/<%= modelName %>.model";
+
+export interface I<%= serviceName %>Service <%if (modelName) {%>extends IBaseService<I<%= serviceName %>Service><% } %> {
+}
+
+@injectable()
+export class <%= serviceName %>Service <%if (modelName) {%>extends BaseService<I<%= serviceName %>Service><%}%> implements I<%= serviceName %>Service {
+    
+    constructor() {
+        <%if (modelName) {%>super(<%= serviceName %>Model)<%}%>
+    }
+
+    
+}
